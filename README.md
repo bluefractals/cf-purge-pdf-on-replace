@@ -10,6 +10,6 @@ Usage:
 3. Go to: Settings → Cloudflare PDF Purge
 
 4. Paste:
-Zone ID
-API Token (permissions: Zone → Cache Purge → Purge and Zone → Read)
-Notification email
+   Zone ID
+   API Token (permissions: Zone → Cache Purge → Purge and Zone → Read)
+   Notification email
