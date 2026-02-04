@@ -13,6 +13,8 @@ class CF_Purge_PDF_On_Replace {
     const OPTION_KEY = 'cf_purge_pdf_settings';
     const EMAIL_THROTTLE_TRANSIENT = 'cf_purge_pdf_last_email_ts';
 
+    private static array $purged_this_request = [];
+
     public static function init(): void {
         // Hooks to catch media replacement flows
         add_action('updated_post_meta', [__CLASS__, 'on_updated_post_meta'], 10, 4);
@@ -61,6 +63,10 @@ class CF_Purge_PDF_On_Replace {
     }
 
     private static function purge_cloudflare_urls(array $urls, int $attachment_id, string $trigger): void {
+        $key = $attachment_id . '|' . implode('|', $urls);
+        if (isset(self::$purged_this_request[$key])) return;
+        self::$purged_this_request[$key] = true;
+
         $urls = array_values(array_unique(array_filter($urls)));
         if (empty($urls)) return;
 
